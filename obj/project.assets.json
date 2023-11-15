@@ -297,19 +297,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\CPD299\\.nuget\\packages\\": {}
+    "C:\\Users\\Antss\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Projetos\\2023\\Novembro\\Consolat\\Consolat.csproj",
+      "projectUniqueName": "C:\\Projetos\\trabalhoAda\\CLI-Chat\\Consolat.csproj",
       "projectName": "Consolat",
-      "projectPath": "C:\\Projetos\\2023\\Novembro\\Consolat\\Consolat.csproj",
-      "packagesPath": "C:\\Users\\CPD299\\.nuget\\packages\\",
-      "outputPath": "C:\\Projetos\\2023\\Novembro\\Consolat\\obj\\",
+      "projectPath": "C:\\Projetos\\trabalhoAda\\CLI-Chat\\Consolat.csproj",
+      "packagesPath": "C:\\Users\\Antss\\.nuget\\packages\\",
+      "outputPath": "C:\\Projetos\\trabalhoAda\\CLI-Chat\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\CPD299\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Antss\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -317,6 +322,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -360,7 +366,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Consolat
 {
-    internal class Message
+    public class Message
     {
         public string? Content { get; set; }
+        public string? RemetentId { get; set; }
+        public string? DestinataryId { get; set; }
     }
 }

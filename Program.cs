@@ -1,9 +1,4 @@
-﻿// using Microsoft.Data.Sqlite => Este namespace fornece classes para trabalhar com o SQLite
-// usando o provedor de dados SQLite da Microsoft.
-using Microsoft.Data.Sqlite;
-// using SQLitePCL => é necessário para usar o Batteries.Init() e é necessário para usar o SQLite
-using SQLitePCL;
-
+﻿using System;
 
 namespace Consolat
 {
@@ -11,56 +6,97 @@ namespace Consolat
     {
         static void Main()
         {
-            // Método necessário para usar o SQLite, ele usa a abstração do SQLitePCL para fazer com que o banco de dados funcione
-            // em diferentes plataformas, é necessário usar Batteries.Init() antes de fazer qualquer manipulação com o banco SQLite em um programa .NET
-            Batteries.Init();
+            ConsoleHelper ch = new();
+            SeedDatabase();
+            int line = ShowMessages();
 
-            // Criar uma conexão com o banco de dados SQLite (um arquivo será criado automaticamente se não existir)
-            // o using serve para garantir a liberação de recursos
-            using (SqliteConnection connection = new SqliteConnection("Data Source=messages.db;"))
+            ch.gotoxy(0, 27);
+            string entry = Console.ReadLine() ?? "";
+
+            while (entry != ".quit")
             {
-                connection.Open();
-
-                // Criar uma tabela chamada 'Messages' se não existir
-                // Pepara a Query a ser usada no banco de dados
-                string createTableQuery = "CREATE TABLE IF NOT EXISTS Messages (Id INTEGER PRIMARY KEY AUTOINCREMENT, Content TEXT);";
-                using (SqliteCommand createTableCommand = new SqliteCommand(createTableQuery, connection))
-                {
-                    // Executa o comando SQLite usando a junção da query com a conexão criada
-                    createTableCommand.ExecuteNonQuery();
-                }
-
-                // Inserir mensagens na tabela 'Messages'
-                List<Message> messages = new List<Message>
-                {
-                    new Message { Content = "Primeira Mensagem" },
-                    new Message { Content = "Segunda Mensagem" },
-                    new Message { Content = "Terceira Mensagem" },
-                    new Message { Content = "Quarta Mensagem" },
-                };
-
-                foreach (Message message in messages)
-                {                                                     // VALUES (@content, @senderId, @receiverId, @something)
-                    string insertQuery = "INSERT INTO Messages (Content) VALUES (@content);";
-                    using (SqliteCommand insertCommand = new SqliteCommand(insertQuery, connection))
-                    {
-                        // insertCommand.Parameters.AddWithValue("@something", message.something);
-                        insertCommand.Parameters.AddWithValue("@content", message.Content);
-                        insertCommand.ExecuteNonQuery();
-                    }
-                }
-
-                // Ler e exibir mensagens da tabela 'Messages'
-                string selectQuery = "SELECT * FROM Messages;";
-                using (SqliteCommand selectCommand = new SqliteCommand(selectQuery, connection))
-                using (SqliteDataReader reader = selectCommand.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Console.WriteLine($"ID: {reader["Id"]}, Content: {reader["Content"]}");
-                    }
-                }
+                ReceiveMessage(entry);
+                ch.gotoxy(0, (short)line);
+                Console.Write(entry);
+                line++;
+                ResetEntry(entry, ch);
+                ch.gotoxy(0, 27);
+                entry = Console.ReadLine() ?? "";
             }
+        }
+
+        public static int ShowMessages()
+        {
+            Database.Initialize();
+
+            var messages = Database.GetMessages();
+
+            foreach (var message in messages)
+            {
+                Console.WriteLine(message.Content);
+            }
+
+            return messages.Count;
+        }
+
+        public static void SeedDatabase()
+        {
+            Database.Initialize();
+
+            try
+            {
+                var messages = Database.GetMessages();
+            }
+            catch
+            {
+                Database.SaveMessage(new Message
+                {
+                    Content = "Primeira mensagem",
+                    RemetentId = "Anderson",
+                    DestinataryId = "Arisu"
+                });
+
+                Database.SaveMessage(new Message
+                {
+                    Content = "Oi, deu certo?",
+                    RemetentId = "Anderson",
+                    DestinataryId = "Maça"
+                });
+
+                Database.SaveMessage(new Message
+                {
+                    Content = "Sim!! ksskks",
+                    RemetentId = "Maça",
+                    DestinataryId = "Anderson"
+                });
+            }
+
+        }
+
+        public static void ReceiveMessage(string entry)
+        {
+            Database.SaveMessage(new Message
+            {
+                Content = entry,
+                RemetentId = "Anderson",
+                DestinataryId = "Global"
+            });
+        }
+
+        public static void ResetEntry(string entry, ConsoleHelper ch)
+        {
+            string voidContent = "";
+            for (int i = 0; i < entry.Length; i++)
+            {
+                voidContent += " ";
+            }
+
+            ch.gotoxy(0, 27);
+
+            Console.Write(voidContent);
+
+            ch.gotoxy(0, 27);
+
         }
     }
 }
